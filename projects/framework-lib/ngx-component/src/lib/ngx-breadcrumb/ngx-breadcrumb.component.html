@@ -1,0 +1,23 @@
+<ngx-skeleton-loader
+  [hidden]="loading"
+  count="1"
+  [theme]="{ width: '20em', 'border-radius': '40', height: '40px' }"
+></ngx-skeleton-loader>
+<nav aria-label="breadcrumb" [hidden]="!loading">
+  <ol class="breadcrumb bg-transparent mb-0 pb-0 pt-1 px-0 me-sm-6 me-5">
+    <li class="breadcrumb-item text-sm"><a class="opacity-5 text-dark" routerLink="/dashboard">Pages</a></li>
+    <li class="breadcrumb-item text-sm" *ngFor="let breadcrumb of breadcrumbs; let last = last">
+      <ng-container *ngTemplateOutlet="last === true ? withoutRouterLink : withRouterLink; context: {breadcrumb: breadcrumb}"></ng-container>
+    </li>
+  </ol>
+  <h6 class="font-weight-bolder mb-0">{{ lastBreadcrumb?.label }}</h6>
+</nav>
+
+<!-- Templates -->
+<ng-template #withRouterLink let-breadcrumb="breadcrumb">
+  <a class="opacity-5 text-dark" [routerLink]="breadcrumb.url">{{ breadcrumb.label }}</a>
+</ng-template>
+
+<ng-template #withoutRouterLink let-breadcrumb="breadcrumb">
+  <a class="opacity-5 text-dark active" aria-current="page">{{ breadcrumb.label }}</a>
+</ng-template>

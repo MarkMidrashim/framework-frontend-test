@@ -1,0 +1,246 @@
+{
+  "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
+  "version": 1,
+  "newProjectRoot": "projects",
+  "projects": {
+    "ngx-framework": {
+      "projectType": "application",
+      "schematics": {
+        "@schematics/angular:component": {
+          "style": "scss"
+        },
+        "@schematics/angular:application": {
+          "strict": true
+        }
+      },
+      "root": "projects/ngx-framework",
+      "sourceRoot": "projects/ngx-framework/src",
+      "prefix": "app",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:browser",
+          "options": {
+            "outputPath": "dist/app-ngx-framework/dist",
+            "index": "projects/ngx-framework/src/index.html",
+            "main": "projects/ngx-framework/src/main.ts",
+            "polyfills": "projects/ngx-framework/src/polyfills.ts",
+            "tsConfig": "projects/ngx-framework/tsconfig.app.json",
+            "aot": true,
+            "assets": [
+              "projects/ngx-framework/src/favicon.ico",
+              "projects/ngx-framework/src/assets"
+            ],
+            "styles": [
+              "projects/ngx-framework/src/styles.scss"
+            ],
+            "scripts": []
+          },
+          "configurations": {
+            "production": {
+              "fileReplacements": [
+                {
+                  "replace": "projects/ngx-framework/src/environments/environment.ts",
+                  "with": "projects/ngx-framework/src/environments/environment.prod.ts"
+                }
+              ],
+              "optimization": true,
+              "outputHashing": "all",
+              "sourceMap": false,
+              "namedChunks": false,
+              "extractLicenses": true,
+              "vendorChunk": false,
+              "buildOptimizer": true,
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "500kb",
+                  "maximumError": "1mb"
+                },
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "2kb",
+                  "maximumError": "4kb"
+                }
+              ]
+            }
+          }
+        },
+        "serve": {
+          "builder": "@angular-devkit/build-angular:dev-server",
+          "options": {
+            "browserTarget": "ngx-framework:build"
+          },
+          "configurations": {
+            "production": {
+              "browserTarget": "ngx-framework:build:production"
+            }
+          }
+        },
+        "extract-i18n": {
+          "builder": "@angular-devkit/build-angular:extract-i18n",
+          "options": {
+            "browserTarget": "ngx-framework:build"
+          }
+        },
+        "test": {
+          "builder": "@angular-builders/jest:run",
+          "options": {
+            "polyfills": ["projects/ngx-framework/src/polyfills.ts"],
+            "tsConfig": "projects/ngx-framework/tsconfig.spec.json",
+            "assets": [
+              "projects/ngx-framework/src/favicon.ico",
+              "projects/ngx-framework/src/assets"
+            ],
+            "styles": [
+              "projects/ngx-framework/src/styles.scss"
+            ],
+            "scripts": []
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "projects/ngx-framework/tsconfig.app.json",
+              "projects/ngx-framework/tsconfig.spec.json",
+              "e2e/tsconfig.json"
+            ],
+            "exclude": [
+              "**/node_modules/**"
+            ]
+          }
+        },
+        "e2e": {
+          "builder": "@angular-devkit/build-angular:protractor",
+          "options": {
+            "protractorConfig": "e2e/protractor.conf.js",
+            "devServerTarget": "ngx-framework:serve"
+          },
+          "configurations": {
+            "production": {
+              "devServerTarget": "ngx-framework:serve:production"
+            }
+          }
+        }
+      }
+    },
+    "@framework-lib/ngx-component": {
+      "projectType": "library",
+      "root": "projects/framework-lib/ngx-component",
+      "sourceRoot": "projects/framework-lib/ngx-component/src",
+      "prefix": "ngx",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:ng-packagr",
+          "options": {
+            "tsConfig": "projects/framework-lib/ngx-component/tsconfig.lib.json",
+            "project": "projects/framework-lib/ngx-component/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "tsConfig": "projects/framework-lib/ngx-component/tsconfig.lib.prod.json"
+            }
+          }
+        },
+        "test": {
+          "builder": "@angular-builders/jest:run",
+          "options": {
+            "tsConfig": "projects/framework-lib/ngx-component/tsconfig.spec.json"
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "projects/framework-lib/ngx-component/tsconfig.lib.json",
+              "projects/framework-lib/ngx-component/tsconfig.spec.json"
+            ],
+            "exclude": [
+              "**/node_modules/**"
+            ]
+          }
+        }
+      }
+    },
+    "@framework-lib/ngx-api": {
+      "projectType": "library",
+      "root": "projects/framework-lib/ngx-api",
+      "sourceRoot": "projects/framework-lib/ngx-api/src",
+      "prefix": "ngx",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:ng-packagr",
+          "options": {
+            "tsConfig": "projects/framework-lib/ngx-api/tsconfig.lib.json",
+            "project": "projects/framework-lib/ngx-api/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "tsConfig": "projects/framework-lib/ngx-api/tsconfig.lib.prod.json"
+            }
+          }
+        },
+        "test": {
+          "builder": "@angular-builders/jest:run",
+          "options": {
+            "tsConfig": "projects/framework-lib/ngx-api/tsconfig.spec.json"
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "projects/framework-lib/ngx-api/tsconfig.lib.json",
+              "projects/framework-lib/ngx-api/tsconfig.spec.json"
+            ],
+            "exclude": [
+              "**/node_modules/**"
+            ]
+          }
+        }
+      }
+    },
+    "@framework-lib/ngx-domain": {
+      "projectType": "library",
+      "root": "projects/framework-lib/ngx-domain",
+      "sourceRoot": "projects/framework-lib/ngx-domain/src",
+      "prefix": "ngx",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:ng-packagr",
+          "options": {
+            "tsConfig": "projects/framework-lib/ngx-domain/tsconfig.lib.json",
+            "project": "projects/framework-lib/ngx-domain/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "tsConfig": "projects/framework-lib/ngx-domain/tsconfig.lib.prod.json"
+            }
+          }
+        },
+        "test": {
+          "builder": "@angular-builders/jest:run",
+          "options": {
+            "tsConfig": "projects/framework-lib/ngx-domain/tsconfig.spec.json"
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "projects/framework-lib/ngx-domain/tsconfig.lib.json",
+              "projects/framework-lib/ngx-domain/tsconfig.spec.json"
+            ],
+            "exclude": [
+              "**/node_modules/**"
+            ]
+          }
+        }
+      }
+    }
+  },
+  "cli": {
+    "analytics": "013a6c68-c0fb-4937-841d-a94be50ea630"
+  },
+  "defaultProject": "ngx-framework"
+}

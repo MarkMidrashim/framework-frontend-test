@@ -3,13 +3,7 @@ import { ReplaySubject } from 'rxjs';
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
 import { Event as RouteEvent, NavigationEnd, Router } from '@angular/router';
 import { filter, takeUntil } from 'rxjs/operators';
-
-export interface IBreadcrumb {
-  id: string;
-  label: string;
-  url: string;
-  position: number;
-}
+import { IBreadcrumb } from '@framework-lib/ngx-domain';
 
 @Component({
   selector: 'lib-ngx-breadcrumb',

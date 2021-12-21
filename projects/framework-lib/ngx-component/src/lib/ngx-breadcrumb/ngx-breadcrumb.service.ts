@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { ReplaySubject, Observable } from 'rxjs';
-import { IBreadcrumb } from './ngx-breadcrumb.component';
+import { IBreadcrumb } from '@framework-lib/ngx-domain';
 
 @Injectable({
   providedIn: 'root'

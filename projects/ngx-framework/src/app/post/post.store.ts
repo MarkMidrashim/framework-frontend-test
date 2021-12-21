@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpParams } from '@angular/common/http';
-import { ReplaySubject, Subject } from 'rxjs';
+import { Observable, ReplaySubject, Subject } from 'rxjs';
 import { PostAPI } from '@framework-lib/ngx-api';
 import { IPost } from '@framework-lib/ngx-domain';
 
@@ -12,37 +12,82 @@ export class PostStore {
   private notify = new Subject<any>();
   readonly notify$ = this.notify.asObservable();
 
-  private pessoa = new ReplaySubject<IPost>(1);
-  readonly pessoa$ = this.pessoa.asObservable();
+  private posts = new ReplaySubject<IPost[]>(1);
+  readonly posts$ = this.posts.asObservable();
 
   /**
    * CONSTRUCTOR
-   * @param pessoaAPI: PostAPI
+   * @param postAPI: PostAPI
    */
-  constructor(
-    private pessoaAPI: PostAPI
-  ) {}
+  constructor(private postAPI: PostAPI) {}
 
   /**
-   * Método responsável por chamar o serviço de pessoa e informar o parâmetro de busca
-   * @param searchTerm: string
+   * Recupera código do usuário
+   * @readonly
+   * @memberof PostStore
    */
-  search(searchTerm: string): void {
-    const params = new HttpParams()
-      .set('cpf', searchTerm)
-      .set('singular', '1');
+  get userId() { return 1; }
 
-    this.pessoaAPI.get(params).subscribe(
-      (pessoa: IPost) => this.pessoa.next(pessoa),
+  /**
+   * Método responsável por chamar o serviço de post e informar o parâmetro de busca
+   */
+  fetch(): void {
+    const params = new HttpParams().set('userId', this.userId.toString());
+
+    this.postAPI.getAll(params).subscribe(
+      (post: IPost[]) => this.posts.next(post),
       (error: Error) => this.notify.next(error)
     );
+  }
+
+  /**
+   * Método responsável por chamar o serviço de post e informar o parâmetro de busca
+   * @param id: number
+   */
+  only(id: number): void {
+    const params = new HttpParams()
+      .set('id', id.toString());
+
+    this.postAPI.get(params).subscribe(
+      (post: IPost) => this.posts.next([post]),
+      (error: Error) => this.notify.next(error)
+    );
+  }
+
+  /**
+   *
+   * @param post: IPost
+   * @returns
+   */
+  create(post: IPost): Observable<IPost> {
+    return this.postAPI.create(post);
+  }
+
+  /**
+   *
+   * @param post: IPost
+   * @returns
+   */
+  update(post: IPost): Observable<IPost> {
+    return this.postAPI.update(post);
+  }
+
+  /**
+   * Método responsável por chamar o serviço de post e informar o parâmetro para remover
+   * @param id: number
+   */
+  delete(id: number): void {
+    const params = new HttpParams()
+      .set('id', id.toString());
+
+    this.postAPI.delete(params).subscribe();
   }
 
   /**
    * Reset query store
    */
   reset(): void {
-    this.pessoa.next(undefined);
-    this.pessoa.complete();
+    this.posts.next(undefined);
+    this.posts.complete();
   }
 }

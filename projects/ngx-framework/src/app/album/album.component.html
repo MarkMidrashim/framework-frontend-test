@@ -2,49 +2,80 @@
   <div class="col-12">
     <div class="card mb-4">
       <div class="card-header pb-0">
-        <h6 [hidden]="!contentLoaded">Informe o CPF que deseja consultar:</h6>
+        <h6 [hidden]="!loading">Histórico de registros</h6>
         <ngx-skeleton-loader
-          [hidden]="contentLoaded"
+          [hidden]="loading"
           count="1"
           [theme]="{ width: '20em', 'border-radius': '40', height: '40px' }"
         ></ngx-skeleton-loader>
       </div>
       <div class="card-body px-0 pt-0 pb-2">
         <div class="table-responsive px-4">
+          <table
+            *ngIf="album$ | async as albums; else loadingSkeleton"
+            class="table table-hover align-items-center justify-content-center mb-0"
+          >
+            <thead>
+              <tr>
+                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Title</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let album of albums">
+                <td><span class="text-sm font-weight-bold ellipses">{{ album?.title }}</span></td>
+                <td class="text-end align-middle">
+                  <button class="btn btn-link text-secondary mb-0">
+                    <span style="color: #3085d6">
+                      <i class="fas fa-pencil-alt text-xs"></i>
+                    </span>
+                  </button>
+                  <button class="btn btn-link text-secondary mb-0" (click)="delete(album)">
+                    <span style="color: #d33">
+                      <i class="fas fa-trash text-xs"></i>
+                    </span>
+                  </button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div class="card-footer">
+        <div class="col-12 text-end">
+          <a
+            [hidden]="!loading"
+            [routerLink]="'create'"
+            class="btn bg-gradient-success btn-block mb-3"
+          >
+            Registrar
+          </a>
           <ngx-skeleton-loader
-            [hidden]="contentLoaded"
+            [hidden]="loading"
             count="1"
-            [theme]="{ 'border-radius': '40', height: '40px' }"
+            [theme]="{ width: '10em', 'border-radius': '40', height: '40px' }"
           ></ngx-skeleton-loader>
-          <form [formGroup]="form" (ngSubmit)="submit()">
-            <div [hidden]="!contentLoaded" class="form-group mb-4">
-              <input class="form-control" name="cpf" id="cpf" [placeholder]="cpfPlaceholder" [mask]="cpfInputMask" formControlName="cpf" />
-            </div>
-            <div class="col-12 text-end">
-              <ngx-skeleton-loader
-                [hidden]="contentLoaded"
-                count="1"
-                [theme]="{ width: '12em', 'border-radius': '40', height: '40px', float: 'right', 'margin-left': '15px' }"
-              ></ngx-skeleton-loader>
-              <ngx-skeleton-loader
-                [hidden]="contentLoaded"
-                count="1"
-                [theme]="{ width: '12em', 'border-radius': '40', height: '40px', float: 'right' }"
-              ></ngx-skeleton-loader>
-              <button (click)="reset();searchPeople = false" [hidden]="!contentLoaded" type="button" class="btn bg-gradient-secondary btn-block mb-3">
-                <i class="fal fa-times-circle"></i>&nbsp;
-                Limpar
-              </button>&nbsp;
-              <button [hidden]="!contentLoaded" type="submit" class="btn bg-gradient-info btn-block mb-3">
-                <i class="fal fa-search"></i>&nbsp;
-                Pesquisar
-              </button>
-            </div>
-          </form>
         </div>
       </div>
     </div>
   </div>
 </div>
 
-<div class="row" [hidden]="!searchPeople"></div>
+<ng-template #loadingSkeleton>
+  <div class="row">
+    <div class="col-11">
+      <ngx-skeleton-loader
+        [hidden]="loading"
+        count="10"
+        [theme]="{ 'border-radius': '40', height: '40px' }"
+      ></ngx-skeleton-loader>
+    </div>
+    <div class="col-1">
+      <ngx-skeleton-loader
+        [hidden]="loading"
+        count="10"
+        [theme]="{ 'border-radius': '40', height: '40px' }"
+      ></ngx-skeleton-loader>
+    </div>
+  </div>
+</ng-template>

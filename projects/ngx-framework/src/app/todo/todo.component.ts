@@ -1,5 +1,4 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
-import { FormGroup, FormControl, Validators, FormBuilder } from '@angular/forms';
 import Swal from 'sweetalert2';
 import { TodoStore } from './todo.store';
 import { ITodo } from '@framework-lib/ngx-domain';
@@ -14,74 +13,51 @@ import { Observable } from 'rxjs';
 })
 export class TodoComponent implements OnInit {
 
-  public contentLoaded = false;
-  public searchPeople = false;
-  public cpfInputMask = '000.000.000-00';
-  public cpfPlaceholder = '___.___.___-__';
-  public form!: FormGroup;
-  public pessoa$: Observable<ITodo> = this._store.pessoa$;
+  public loading = false;
+  public todo$: Observable<ITodo[]> = this._store.todos$;
 
   /**
    * CONSTRUCTOR
-   * @param _formBuilder: FormBuilder
    * @param _store: TodoStore
    * @param _breadcrumbService: NgxBreadcrumbService
-   * @param _router: Router
    */
   constructor(
-    private _formBuilder: FormBuilder,
     private _store: TodoStore,
     private _breadcrumbService: NgxBreadcrumbService
   ) { }
 
   ngOnInit(): void {
-    setTimeout(() => { this.contentLoaded = true; }, 1500);
+    setTimeout(() => {
+      this._store.fetch();
+      this.loading = true;
+    }, 1500);
 
-    this.form = this._formBuilder.group({
-      cpf: new FormControl('', [
-        Validators.required,
-        Validators.minLength(11),
-        Validators.maxLength(14),
-        Validators.pattern('^\d{3}\.\d{3}\.\d{3}-\d{2}$')
-      ])
-    });
-
-    this._breadcrumbService.add('query-breadcrumb', 'Consulta', '/query', 1);
+    this._breadcrumbService.add('todo-breadcrumb', 'Todo', '/todo', 1);
   }
 
   /**
-   * Reset query component
+   * Método responsável for acionar o delete do item
+   * @param todo: ITodo
    */
-  reset(): void {
-    this.form.reset();
-    this._store.reset();
-  }
-
-  /**
-   * Submit
-   */
-  submit(): void {
-    const cpf: string = this.form.get('cpf')?.value;
-  }
-
-  /**
-   * Método responsável por verificar se o CPF existe na base de dados
-   */
-  private checkResultSearch(): void {
-    let error = false;
-    this._store.notify$.subscribe(() => {
-      Swal.fire(
-        'CPF Não identificado!',
-        `O CPF informado não foi identificado na base de dados.`,
-        'warning'
-      );
-      this.searchPeople = false;
-      error = true;
-    });
-
-    this.pessoa$.subscribe(() => {
-      if (!error) {
-        this.searchPeople = true;
+  delete(todo: ITodo) {
+    Swal.fire({
+      title: 'Tem certeza?',
+      text: "Você não poderá reverter esta operação!",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Sim, remova!',
+      cancelButtonText: 'Cancelar'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this._store.delete(todo.id);
+        this._store.reset();
+        Swal.fire(
+          'Removido!',
+          'O item foi removido com sucesso.',
+          'success'
+        );
       }
     });
   }

@@ -1,7 +1,7 @@
 import { Injectable, Injector } from '@angular/core';
 import { HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { AbstractAPI, IPaginableAPIModel, IPost } from '@framework-lib/ngx-domain';
+import { AbstractAPI, IPost } from '@framework-lib/ngx-domain';
 
 @Injectable({
   providedIn: 'root'
@@ -22,7 +22,7 @@ export class PostAPI extends AbstractAPI<IPost> {
     return super.getGeneric<IPost>(params);
   }
 
-  getAll(params?: HttpParams): Observable<IPaginableAPIModel<IPost>> {
+  getAll(params?: HttpParams): Observable<IPost[]> {
     return super.getListGeneric<IPost>(params);
   }
 

@@ -1,7 +1,7 @@
 import { Injectable, Injector } from '@angular/core';
 import { HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { AbstractAPI, IAlbum, IPaginableAPIModel } from '@framework-lib/ngx-domain';
+import { AbstractAPI, IAlbum } from '@framework-lib/ngx-domain';
 
 @Injectable({
   providedIn: 'root'
@@ -22,7 +22,7 @@ export class AlbumAPI extends AbstractAPI<IAlbum> {
     return super.getGeneric<IAlbum>(params);
   }
 
-  getAll(params?: HttpParams): Observable<IPaginableAPIModel<IAlbum>> {
+  getAll(params?: HttpParams): Observable<IAlbum[]> {
     return super.getListGeneric<IAlbum>(params);
   }
 

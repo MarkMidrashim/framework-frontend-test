@@ -1,7 +1,7 @@
 import { Injectable, Injector } from '@angular/core';
 import { HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { AbstractAPI, IPaginableAPIModel, ITodo } from '@framework-lib/ngx-domain';
+import { AbstractAPI, ITodo } from '@framework-lib/ngx-domain';
 
 @Injectable({
   providedIn: 'root'
@@ -22,7 +22,7 @@ export class TodoAPI extends AbstractAPI<ITodo> {
     return super.getGeneric<ITodo>(params);
   }
 
-  getAll(params?: HttpParams): Observable<IPaginableAPIModel<ITodo>> {
+  getAll(params?: HttpParams): Observable<ITodo[]> {
     return super.getListGeneric<ITodo>(params);
   }
 

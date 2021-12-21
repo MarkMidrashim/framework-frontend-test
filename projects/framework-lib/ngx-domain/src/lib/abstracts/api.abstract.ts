@@ -1,4 +1,3 @@
-import { IPaginableAPIModel } from '../interfaces/paginable.interface';
 import { Injector } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
@@ -47,8 +46,8 @@ export abstract class AbstractAPI<T> {
    * @template U objeto abstrato de retorno
    * @returns
    */
-  protected getListGeneric<U>(params?: HttpParams): Observable<IPaginableAPIModel<U>> {
-    return this.http.get<IPaginableAPIModel<U>>(this.url, { params: params });
+  protected getListGeneric<U>(params?: HttpParams): Observable<Array<U>> {
+    return this.http.get<Array<U>>(this.url, { params: params });
   }
 
   /**

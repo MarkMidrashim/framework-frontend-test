@@ -58,10 +58,10 @@ export class AlbumStore {
 
   /**
    * Método responsável por chamar o serviço de album e informar o parâmetro para remover
-   * @param id: number
+   * @param album: IAlbum
    */
-  delete(id: number): void {
-    this.albumAPI.delete(this.buildParams({'id': id.toString()})).subscribe();
+  delete(album: IAlbum): void {
+    this.albumAPI.delete(album).subscribe();
   }
 
   /**
@@ -74,13 +74,28 @@ export class AlbumStore {
 
   /**
    *
+   */
+  refresh(): void {
+    this.updateList();
+  }
+
+  /**
+   *
+   * @param albums: IAlbum[]
+   */
+  private updateList(albums?: IAlbum[]): void {
+    this.albums.next(albums);
+  }
+
+  /**
+   *
    * @param params: GenericParams
    * @returns
    */
   private buildParams(params: GenericParams): HttpParams {
     let httpParams = new HttpParams();
     for (let key in params) {
-      httpParams = httpParams.set(key, params[key]);
+      httpParams = httpParams.append(key, params[key]);
     }
 
     return httpParams;

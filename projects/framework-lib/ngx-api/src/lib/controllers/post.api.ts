@@ -34,8 +34,8 @@ export class PostAPI extends AbstractAPI<IPost> {
     return super.putGeneric(entity, params);
   }
 
-  delete(params?: HttpParams): Observable<void> {
-    return super.deleteGeneric(params);
+  delete(entity: IPost, params?: HttpParams): Observable<void> {
+    return super.deleteGeneric(entity, params);
   }
 
 }

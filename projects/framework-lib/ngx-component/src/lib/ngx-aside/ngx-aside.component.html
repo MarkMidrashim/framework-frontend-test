@@ -4,10 +4,10 @@
     <img src="../assets/img/framework.png" class="navbar-brand-img h-100" alt=" Framework">
   </a>
 </div>
-<hr class="horizontal dark mt-0">
+<mat-divider class="horizontal dark mt-0"></mat-divider>
 <div class="collapse navbar-collapse  w-auto" id="sidenav-collapse-main">
-  <ul class="navbar-nav" *ngIf="asides; else loadingItens">
-    <li class="nav-item" *ngFor="let item of asides">
+  <mat-list class="navbar-nav" *ngIf="asides; else loadingItens">
+    <mat-list-item class="nav-item" *ngFor="let item of asides">
       <a class="nav-link" [ngClass]="{'active': isCurrentRoute(item?.url)}" [routerLink]="item.url">
         <div class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
           <span style="color: #FFFFFF">
@@ -16,8 +16,8 @@
         </div>
         <span class="nav-link-text ms-1">{{ item.label }}</span>
       </a>
-    </li>
-  </ul>
+    </mat-list-item>
+  </mat-list>
 </div>
 
 <ng-template #loadingItens>

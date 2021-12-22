@@ -34,8 +34,8 @@ export class TodoAPI extends AbstractAPI<ITodo> {
     return super.putGeneric(entity, params);
   }
 
-  delete(params?: HttpParams): Observable<void> {
-    return super.deleteGeneric(params);
+  delete(entity: ITodo, params?: HttpParams): Observable<void> {
+    return super.deleteGeneric(entity, params);
   }
 
 }

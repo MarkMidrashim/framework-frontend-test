@@ -58,10 +58,10 @@ export class PostStore {
 
   /**
    * Método responsável por chamar o serviço de post e informar o parâmetro para remover
-   * @param id: number
+   * @param post: ITodo
    */
-  delete(id: number): void {
-    this.postAPI.delete(this.buildParams({'id': id.toString()})).subscribe();
+  delete(post: IPost): void {
+    this.postAPI.delete(post).subscribe();
   }
 
   /**
@@ -74,13 +74,28 @@ export class PostStore {
 
   /**
    *
+   */
+  refresh(): void {
+    this.updateList();
+  }
+
+  /**
+   *
+   * @param posts: IPost[]
+   */
+  private updateList(posts?: IPost[]): void {
+    this.posts.next(posts);
+  }
+
+  /**
+   *
    * @param params: GenericParams
    * @returns
    */
   private buildParams(params: GenericParams): HttpParams {
     let httpParams = new HttpParams();
     for (let key in params) {
-      httpParams = httpParams.set(key, params[key]);
+      httpParams = httpParams.append(key, params[key]);
     }
 
     return httpParams;

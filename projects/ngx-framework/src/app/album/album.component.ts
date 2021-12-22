@@ -62,8 +62,8 @@ export class AlbumComponent implements OnInit {
       cancelButtonText: 'Cancelar'
     }).then((result) => {
       if (result.isConfirmed) {
-        this._store.delete(album.id);
-        this._store.reset();
+        this._store.delete(album);
+        this._store.refresh();
         Swal.fire(
           'Removido!',
           'O item foi removido com sucesso.',

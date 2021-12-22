@@ -58,10 +58,10 @@ export class TodoStore {
 
   /**
    * Método responsável por chamar o serviço de todo e informar o parâmetro para remover
-   * @param id: number
+   * @param todo: ITodo
    */
-  delete(id: number): void {
-    this.todoAPI.delete(this.buildParams({'id': id.toString()})).subscribe();
+  delete(todo: ITodo): void {
+    this.todoAPI.delete(todo).subscribe();
   }
 
   /**
@@ -74,13 +74,28 @@ export class TodoStore {
 
   /**
    *
+   */
+  refresh(): void {
+    this.updateList();
+  }
+
+  /**
+   *
+   * @param todos: ITodo[]
+   */
+  private updateList(todos?: ITodo[]): void {
+    this.todos.next(todos);
+  }
+
+  /**
+   *
    * @param params: GenericParams
    * @returns
    */
   private buildParams(params: GenericParams): HttpParams {
     let httpParams = new HttpParams();
     for (let key in params) {
-      httpParams = httpParams.set(key, params[key]);
+      httpParams = httpParams.append(key, params[key]);
     }
 
     return httpParams;

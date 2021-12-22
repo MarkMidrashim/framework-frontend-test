@@ -4,6 +4,7 @@ import { CreateComponent } from './create.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { IConfig, NgxMaskModule } from 'ngx-mask';
 import { NgxSkeletonLoaderModule } from 'ngx-skeleton-loader';
+import { MatButtonModule } from '@angular/material/button';
 
 const maskConfig: Partial<IConfig> = {
   validation: true
@@ -15,7 +16,8 @@ const maskConfig: Partial<IConfig> = {
     CommonModule,
     ReactiveFormsModule,
     NgxSkeletonLoaderModule,
-    NgxMaskModule.forRoot(maskConfig)
+    NgxMaskModule.forRoot(maskConfig),
+    MatButtonModule
   ]
 })
 export class CreateModule { }

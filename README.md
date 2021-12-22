@@ -1,11 +1,10 @@
 # Framework Digital - Test
 
-> Angular 11+, Bootstrap
+> Angular 11+, Angular Material, Bootstrap
 
 ## Índice
 * [Intuíto](#intuito)
 * [Execução](#execucao)
-* [Estrutura](#estrutura)
 
 ### Intuíto:
 Desenvolver um projeto frontend de acordo com o arquivo `./Desafio_Frontend.pdf` para empresa **Framework**.
@@ -22,10 +21,3 @@ $ npm run start
 ```
 
 Por fim, basta [`acessar a URL`](http://localhost:4200/)
-
-### Estrutura
-Você encontrará os seguintes diretórios e arquivos:
-
-```
-
-```

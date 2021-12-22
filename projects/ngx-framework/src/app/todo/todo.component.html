@@ -43,13 +43,14 @@
       </div>
       <div class="card-footer">
         <div class="col-12 text-end">
-          <a
+          <button
+            mat-button
             [hidden]="!loading"
             [routerLink]="'create'"
             class="btn bg-gradient-success btn-block mb-3"
           >
-            Registrar
-          </a>
+            Cadastrar
+          </button>
           <ngx-skeleton-loader
             [hidden]="loading"
             count="1"

@@ -34,8 +34,8 @@ export class AlbumAPI extends AbstractAPI<IAlbum> {
     return super.putGeneric(entity, params);
   }
 
-  delete(params?: HttpParams): Observable<void> {
-    return super.deleteGeneric(params);
+  delete(entity: IAlbum, params?: HttpParams): Observable<void> {
+    return super.deleteGeneric(entity, params);
   }
 
 }

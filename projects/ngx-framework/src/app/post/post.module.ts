@@ -5,6 +5,7 @@ import { PostComponent } from './post.component';
 import { NgxSkeletonLoaderModule } from 'ngx-skeleton-loader';
 import { CreateModule } from './create/create.module';
 import { UpdateModule } from './update/update.module';
+import { MatButtonModule } from '@angular/material/button';
 
 @NgModule({
   declarations: [PostComponent],
@@ -13,7 +14,8 @@ import { UpdateModule } from './update/update.module';
     PostRoutingModule,
     NgxSkeletonLoaderModule,
     CreateModule,
-    UpdateModule
+    UpdateModule,
+    MatButtonModule
   ]
 })
 export class PostModule { }

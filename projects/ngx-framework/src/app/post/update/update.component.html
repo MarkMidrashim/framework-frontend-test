@@ -26,8 +26,13 @@
         </div>
         <div class="card-footer">
           <div class="col-12 text-end">
-            <button [hidden]="!loading" type="submit" class="btn bg-gradient-success btn-block mb-3">
-              Cadastrar
+            <button
+              mat-button
+              [hidden]="!loading"
+              type="submit"
+              class="btn bg-gradient-success btn-block mb-3"
+            >
+              Atualizar
             </button>
             <ngx-skeleton-loader
               [hidden]="loading"

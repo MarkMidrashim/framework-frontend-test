@@ -85,11 +85,12 @@ export abstract class AbstractAPI<T> {
 
   /**
    * Envia um delete para api
+   * @param entity: Entity
    * @param params?: HttpParams
    * @returns
    */
-  protected deleteGeneric(params?: HttpParams): Observable<void> {
-    return this.http.delete<void>(this.url, { params: params });
+  protected deleteGeneric(entity: Entity, params?: HttpParams): Observable<void> {
+    return this.http.delete<void>(`${this.url}/${entity?.id}`, { params: params });
   }
 
 }

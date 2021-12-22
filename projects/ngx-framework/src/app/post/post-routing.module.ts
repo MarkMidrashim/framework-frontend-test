@@ -1,7 +1,8 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { PostFormComponent } from './form/post-form.component';
 import { PostComponent } from './post.component';
+import { CreateComponent } from './create/create.component';
+import { UpdateComponent } from './update/update.component';
 
 const routes: Routes = [
   {
@@ -10,11 +11,11 @@ const routes: Routes = [
   },
   {
     path: 'create',
-    component: PostFormComponent
+    component: CreateComponent
   },
   {
     path: 'update/:id',
-    component: PostFormComponent
+    component: UpdateComponent
   }
 ];
 

@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpParams } from '@angular/common/http';
 import { Observable, ReplaySubject, Subject } from 'rxjs';
 import { PostAPI } from '@framework-lib/ngx-api';
-import { IPost } from '@framework-lib/ngx-domain';
+import { IPost, GenericParams } from '@framework-lib/ngx-domain';
 
 @Injectable({
   providedIn: 'root'
@@ -31,25 +31,9 @@ export class PostStore {
   /**
    * Método responsável por chamar o serviço de post e informar o parâmetro de busca
    */
-  fetch(): void {
-    const params = new HttpParams().set('userId', this.userId.toString());
-
-    this.postAPI.getAll(params).subscribe(
+  fetch(params: GenericParams): void {
+    this.postAPI.getAll(this.buildParams(params)).subscribe(
       (post: IPost[]) => this.posts.next(post),
-      (error: Error) => this.notify.next(error)
-    );
-  }
-
-  /**
-   * Método responsável por chamar o serviço de post e informar o parâmetro de busca
-   * @param id: number
-   */
-  only(id: number): void {
-    const params = new HttpParams()
-      .set('id', id.toString());
-
-    this.postAPI.get(params).subscribe(
-      (post: IPost) => this.posts.next([post]),
       (error: Error) => this.notify.next(error)
     );
   }
@@ -77,10 +61,7 @@ export class PostStore {
    * @param id: number
    */
   delete(id: number): void {
-    const params = new HttpParams()
-      .set('id', id.toString());
-
-    this.postAPI.delete(params).subscribe();
+    this.postAPI.delete(this.buildParams({'id': id.toString()})).subscribe();
   }
 
   /**
@@ -89,5 +70,19 @@ export class PostStore {
   reset(): void {
     this.posts.next(undefined);
     this.posts.complete();
+  }
+
+  /**
+   *
+   * @param params: GenericParams
+   * @returns
+   */
+  private buildParams(params: GenericParams): HttpParams {
+    let httpParams = new HttpParams();
+    for (let key in params) {
+      httpParams = httpParams.set(key, params[key]);
+    }
+
+    return httpParams;
   }
 }

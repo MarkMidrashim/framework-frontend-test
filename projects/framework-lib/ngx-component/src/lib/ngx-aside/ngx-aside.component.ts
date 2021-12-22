@@ -46,7 +46,7 @@ export class NgxAsideComponent implements OnInit {
   }
 
   isCurrentRoute(route?: string): boolean {
-    return this._router.url.replace('/', '') === route;
+    return this._router.url.includes(route || '');
   }
 
   private prepare(): void {

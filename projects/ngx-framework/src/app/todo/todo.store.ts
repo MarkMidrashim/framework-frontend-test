@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpParams } from '@angular/common/http';
 import { Observable, ReplaySubject, Subject } from 'rxjs';
 import { TodoAPI } from '@framework-lib/ngx-api';
-import { ITodo } from '@framework-lib/ngx-domain';
+import { GenericParams, ITodo } from '@framework-lib/ngx-domain';
 
 @Injectable({
   providedIn: 'root'
@@ -31,25 +31,9 @@ export class TodoStore {
   /**
    * Método responsável por chamar o serviço de todo e informar o parâmetro de busca
    */
-  fetch(): void {
-    const params = new HttpParams().set('userId', this.userId.toString());
-
-    this.todoAPI.getAll(params).subscribe(
+  fetch(params: GenericParams): void {
+    this.todoAPI.getAll(this.buildParams(params)).subscribe(
       (todo: ITodo[]) => this.todos.next(todo),
-      (error: Error) => this.notify.next(error)
-    );
-  }
-
-  /**
-   * Método responsável por chamar o serviço de todo e informar o parâmetro de busca
-   * @param id: number
-   */
-  only(id: number): void {
-    const params = new HttpParams()
-      .set('id', id.toString());
-
-    this.todoAPI.get(params).subscribe(
-      (todo: ITodo) => this.todos.next([todo]),
       (error: Error) => this.notify.next(error)
     );
   }
@@ -77,10 +61,7 @@ export class TodoStore {
    * @param id: number
    */
   delete(id: number): void {
-    const params = new HttpParams()
-      .set('id', id.toString());
-
-    this.todoAPI.delete(params).subscribe();
+    this.todoAPI.delete(this.buildParams({'id': id.toString()})).subscribe();
   }
 
   /**
@@ -89,5 +70,19 @@ export class TodoStore {
   reset(): void {
     this.todos.next(undefined);
     this.todos.complete();
+  }
+
+  /**
+   *
+   * @param params: GenericParams
+   * @returns
+   */
+  private buildParams(params: GenericParams): HttpParams {
+    let httpParams = new HttpParams();
+    for (let key in params) {
+      httpParams = httpParams.set(key, params[key]);
+    }
+
+    return httpParams;
   }
 }

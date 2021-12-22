@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpParams } from '@angular/common/http';
 import { Observable, ReplaySubject, Subject } from 'rxjs';
 import { AlbumAPI } from '@framework-lib/ngx-api';
-import { IAlbum } from '@framework-lib/ngx-domain';
+import { GenericParams, IAlbum } from '@framework-lib/ngx-domain';
 
 @Injectable({
   providedIn: 'root'
@@ -31,25 +31,9 @@ export class AlbumStore {
   /**
    * Método responsável por chamar o serviço de album e informar o parâmetro de busca
    */
-  fetch(): void {
-    const params = new HttpParams().set('userId', this.userId.toString());
-
-    this.albumAPI.getAll(params).subscribe(
+  fetch(params: GenericParams): void {
+    this.albumAPI.getAll(this.buildParams(params)).subscribe(
       (album: IAlbum[]) => this.albums.next(album),
-      (error: Error) => this.notify.next(error)
-    );
-  }
-
-  /**
-   * Método responsável por chamar o serviço de album e informar o parâmetro de busca
-   * @param id: number
-   */
-  only(id: number): void {
-    const params = new HttpParams()
-      .set('id', id.toString());
-
-    this.albumAPI.get(params).subscribe(
-      (album: IAlbum) => this.albums.next([album]),
       (error: Error) => this.notify.next(error)
     );
   }
@@ -77,10 +61,7 @@ export class AlbumStore {
    * @param id: number
    */
   delete(id: number): void {
-    const params = new HttpParams()
-      .set('id', id.toString());
-
-    this.albumAPI.delete(params).subscribe();
+    this.albumAPI.delete(this.buildParams({'id': id.toString()})).subscribe();
   }
 
   /**
@@ -89,5 +70,19 @@ export class AlbumStore {
   reset(): void {
     this.albums.next(undefined);
     this.albums.complete();
+  }
+
+  /**
+   *
+   * @param params: GenericParams
+   * @returns
+   */
+  private buildParams(params: GenericParams): HttpParams {
+    let httpParams = new HttpParams();
+    for (let key in params) {
+      httpParams = httpParams.set(key, params[key]);
+    }
+
+    return httpParams;
   }
 }

@@ -3,12 +3,9 @@ import { CommonModule } from '@angular/common';
 import { TodoRoutingModule } from './todo-routing.module';
 import { TodoComponent } from './todo.component';
 import { ReactiveFormsModule } from '@angular/forms';
-import { IConfig, NgxMaskModule } from 'ngx-mask';
 import { NgxSkeletonLoaderModule } from 'ngx-skeleton-loader';
-
-const maskConfig: Partial<IConfig> = {
-  validation: true
-};
+import { CreateModule } from './create/create.module';
+import { UpdateModule } from './update/update.module';
 
 @NgModule({
   declarations: [TodoComponent],
@@ -17,7 +14,8 @@ const maskConfig: Partial<IConfig> = {
     TodoRoutingModule,
     ReactiveFormsModule,
     NgxSkeletonLoaderModule,
-    NgxMaskModule.forRoot(maskConfig)
+    CreateModule,
+    UpdateModule
   ]
 })
 export class TodoModule { }

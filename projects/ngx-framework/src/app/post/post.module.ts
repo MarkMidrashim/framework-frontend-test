@@ -1,9 +1,10 @@
-import { PostFormModule } from './form/post-form.module';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { PostRoutingModule } from './post-routing.module';
 import { PostComponent } from './post.component';
 import { NgxSkeletonLoaderModule } from 'ngx-skeleton-loader';
+import { CreateModule } from './create/create.module';
+import { UpdateModule } from './update/update.module';
 
 @NgModule({
   declarations: [PostComponent],
@@ -11,7 +12,8 @@ import { NgxSkeletonLoaderModule } from 'ngx-skeleton-loader';
     CommonModule,
     PostRoutingModule,
     NgxSkeletonLoaderModule,
-    PostFormModule
+    CreateModule,
+    UpdateModule
   ]
 })
 export class PostModule { }

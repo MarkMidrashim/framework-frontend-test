@@ -19,6 +19,7 @@ export class PostComponent implements OnInit {
 
   /**
    * CONSTRUCTOR
+   * @param _router: Router
    * @param _store: PostStore
    * @param _breadcrumbService: NgxBreadcrumbService
    */
@@ -30,7 +31,7 @@ export class PostComponent implements OnInit {
 
   ngOnInit(): void {
     setTimeout(() => {
-      this._store.fetch();
+      this._store.fetch({'userId': this._store.userId.toString()});
       this.loading = true;
     }, 1500);
 
@@ -42,7 +43,7 @@ export class PostComponent implements OnInit {
    * @param id: number
    */
   update(id: number): void {
-    this._router.navigate(['/update/', id]);
+    this._router.navigate(['post/update', id]);
   }
 
   /**

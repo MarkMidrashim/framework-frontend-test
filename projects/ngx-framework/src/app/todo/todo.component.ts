@@ -4,6 +4,7 @@ import { TodoStore } from './todo.store';
 import { ITodo } from '@framework-lib/ngx-domain';
 import { NgxBreadcrumbService } from '@framework-lib/ngx-component';
 import { Observable } from 'rxjs';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-todo',
@@ -18,21 +19,31 @@ export class TodoComponent implements OnInit {
 
   /**
    * CONSTRUCTOR
+   * @param _router: Router
    * @param _store: TodoStore
    * @param _breadcrumbService: NgxBreadcrumbService
    */
   constructor(
+    private _router: Router,
     private _store: TodoStore,
     private _breadcrumbService: NgxBreadcrumbService
   ) { }
 
   ngOnInit(): void {
     setTimeout(() => {
-      this._store.fetch();
+      this._store.fetch({'userId': this._store.userId.toString()});
       this.loading = true;
     }, 1500);
 
     this._breadcrumbService.add('todo-breadcrumb', 'Todo', '/todo', 1);
+  }
+
+  /**
+   * Método responsável por direcionar para atualização
+   * @param id: number
+   */
+  update(id: number): void {
+    this._router.navigate(['todo/update', id]);
   }
 
   /**
